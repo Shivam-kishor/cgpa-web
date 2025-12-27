@@ -5,34 +5,36 @@
     <title>CGPA Calculator Live</title>
     <script src="https://cjrtnc.leaningtech.com/3.0/loader.js"></script>
 </head>
-<body style="margin:0; background-color: #2c3e50;">
-    <div id="container" style="width:100vw; height:100vh;"></div>
+<body style="margin:0; background-color: #2c3e50; color: white; display: flex; justify-content: center; align-items: center; font-family: sans-serif;">
+    
+    <div id="loading-text">Loading Java Environment... Please Wait</div>
+    <div id="container" style="width:100vw; height:100vh; position: absolute; top: 0; left: 0;"></div>
     
     <script>
-        // This 'async' function ensures everything happens in order
-        async function runApplication() {
-            try {
-                // 1. Initialize the engine
-                await cheerpjInit();
-                
-                // 2. Create the window display
-                cheerpjCreateDisplay(-1, -1, document.getElementById("container"));
-                
-                // 3. Run the JAR using your new repo name 'cgpa-web'
-                await cheerpjRunJar("/app/cgpa-web/calculator.jar");
-                
-                console.log("Java application started successfully!");
-            } catch (error) {
-                console.error("Error details:", error);
+        function startApp() {
+            // Check if CheerpJ is actually loaded yet
+            if (typeof cheerpjInit !== 'undefined') {
+                document.getElementById('loading-text').style.display = 'none';
+                runApplication();
+            } else {
+                console.log("CheerpJ not ready yet, retrying in 1 second...");
+                setTimeout(startApp, 1000); // Wait 1 second and try again
             }
         }
 
-        // Start only when the loader.js script is fully ready
-        if (typeof cheerpjInit !== 'undefined') {
-            runApplication();
-        } else {
-            window.addEventListener('load', runApplication);
+        async function runApplication() {
+            try {
+                await cheerpjInit();
+                cheerpjCreateDisplay(-1, -1, document.getElementById("container"));
+                // Using your exact repo name: cgpa-web
+                await cheerpjRunJar("/app/cgpa-web/calculator.jar");
+            } catch (error) {
+                console.error("Run Error:", error);
+            }
         }
+
+        // Start the checking process
+        startApp();
     </script>
 </body>
 </html>
