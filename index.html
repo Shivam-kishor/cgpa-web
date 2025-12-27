@@ -2,33 +2,37 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>CGPA Calculator (Old Reliable)</title>
-    <script src="https://cjrtnc.leaningtech.com/2.3/loader.js"></script>
+    <title>CGPA Calculator Live</title>
+    <style>
+        body { margin: 0; background-color: #2c3e50; color: white; display: flex; justify-content: center; align-items: center; height: 100vh; font-family: sans-serif; }
+    </style>
 </head>
-<body style="margin:0; overflow:hidden; background-color: #333; color: white; display: flex; justify-content: center; align-items: center; height: 100vh; flex-direction: column;">
+<body>
+    <div id="status">Loading Java Engine... Please wait 30 seconds.</div>
+    <div id="container" style="width:100vw; height:100vh; position: absolute; top: 0; left: 0;"></div>
+
+    <script src="https://cjrtnc.leaningtech.com/2.3/loader.js"></script>
     
-    <div id="loading" style="font-family: sans-serif; font-size: 20px;">
-        Loading Old Reliable Engine...<br>
-        (This may take 30-60 seconds)
-    </div>
-
     <script>
-        window.onload = function() {
-            // 2. Initialize (Simple mode)
-            cheerpjInit();
+        // This function only starts once the script above is 100% loaded
+        async function startApp() {
+            try {
+                await cheerpjInit();
+                cheerpjCreateDisplay(-1, -1, document.getElementById("container"));
+                await cheerpjRunJar("/app/cgpa-web/calculator.jar");
+                document.getElementById("status").style.display = "none";
+            } catch (e) {
+                document.getElementById("status").innerHTML = "Error: " + e;
+            }
+        }
 
-            // 3. Create the window 
-            cheerpjCreateDisplay(-1, -1, document.body);
-
-            // 4. Run the JAR
-            // Note: We use the full path including your repo name
-            cheerpjRunJar("/app/cgpa-web/calculator.jar");
-            
-            // Hide the text once it starts (timeout is a simple trick here)
-            setTimeout(function() {
-                document.getElementById("loading").style.display = "none";
-            }, 5000);
-        };
+        // Check every half second if the tool is ready
+        let checkReady = setInterval(() => {
+            if (typeof cheerpjInit !== 'undefined') {
+                clearInterval(checkReady);
+                startApp();
+            }
+        }, 500);
     </script>
 </body>
 </html>
