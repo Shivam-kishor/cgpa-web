@@ -2,43 +2,33 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>CGPA Calculator Live</title>
-    <style>
-        body { margin: 0; overflow: hidden; background-color: #2c3e50; }
-        #loading {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            color: white; font-family: sans-serif; font-size: 24px; text-align: center;
-        }
-    </style>
-    <script>
-        async function startCheerpJ() {
-            try {
-                // Update text to show progress
-                document.getElementById("loading").innerText = "Starting Java Environment...";
-                
-                // Initialize the engine
-                await cheerpjInit();
-                
-                // Remove text
-                document.getElementById("loading").style.display = "none";
-                
-                // Create display
-                cheerpjCreateDisplay(-1, -1, document.getElementById("container"));
-                
-                // Run the JAR (Using your Repo Name)
-                await cheerpjRunJar("/app/cgpa-web/calculator.jar");
-                
-            } catch (e) {
-                console.error(e);
-                document.getElementById("loading").innerText = "Error: " + e;
-            }
-        }
-    </script>
+    <title>CGPA Calculator (Old Reliable)</title>
+    <script src="https://cjrtnc.leaningtech.com/2.3/loader.js"></script>
 </head>
-<body>
-    <div id="loading">Downloading Java Tools...</div>
-    <div id="container" style="width:100vw; height:100vh;"></div>
+<body style="margin:0; overflow:hidden; background-color: #333; color: white; display: flex; justify-content: center; align-items: center; height: 100vh; flex-direction: column;">
+    
+    <div id="loading" style="font-family: sans-serif; font-size: 20px;">
+        Loading Old Reliable Engine...<br>
+        (This may take 30-60 seconds)
+    </div>
 
-    <script src="https://cjrtnc.leaningtech.com/3.0/loader.js" onload="startCheerpJ()"></script>
+    <script>
+        window.onload = function() {
+            // 2. Initialize (Simple mode)
+            cheerpjInit();
+
+            // 3. Create the window 
+            cheerpjCreateDisplay(-1, -1, document.body);
+
+            // 4. Run the JAR
+            // Note: We use the full path including your repo name
+            cheerpjRunJar("/app/cgpa-web/calculator.jar");
+            
+            // Hide the text once it starts (timeout is a simple trick here)
+            setTimeout(function() {
+                document.getElementById("loading").style.display = "none";
+            }, 5000);
+        };
+    </script>
 </body>
 </html>
