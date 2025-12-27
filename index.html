@@ -6,11 +6,11 @@
 </head>
 <body style="margin:0; background-color: #f0f0f0;">
     <div id="container" style="width:100vw; height:100vh;"></div>
-    <script type="module">
-        await cheerpjInit();
-        cheerpjCreateDisplay(-1, -1, document.getElementById("container"));
-        // This runs your uploaded jar file
-        await cheerpjRunJar("/app/CGPA-and-GPA-Converter-using-java-netbeans-2025/calculator.jar");
-    </script>
+ <script type="module">
+    await cheerpjInit();
+    cheerpjCreateDisplay(-1, -1, document.getElementById("container"));
+    // We add the Repository Name here to help the browser find the jar
+    await cheerpjRunJar("/app/CGPA-and-GPA-Converter-using-java-netbeans-2025/calculator.jar");
+</script>
 </body>
 </html>
