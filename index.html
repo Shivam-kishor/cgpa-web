@@ -8,25 +8,26 @@
     </style>
 </head>
 <body>
-    <div id="status">Loading Java Engine... Please wait 30 seconds.</div>
+    <div id="status">Starting Java Engine... Please wait 60 seconds.</div>
     <div id="container" style="width:100vw; height:100vh; position: absolute; top: 0; left: 0;"></div>
 
     <script src="https://cjrtnc.leaningtech.com/2.3/loader.js"></script>
     
     <script>
-        // This function only starts once the script above is 100% loaded
         async function startApp() {
             try {
-                await cheerpjInit();
+                cheerpjInit();
                 cheerpjCreateDisplay(-1, -1, document.getElementById("container"));
+                
+                // Path points directly to the file in your root folder
                 await cheerpjRunJar("/app/cgpa-web/calculator.jar");
+                
                 document.getElementById("status").style.display = "none";
             } catch (e) {
                 document.getElementById("status").innerHTML = "Error: " + e;
             }
         }
 
-        // Check every half second if the tool is ready
         let checkReady = setInterval(() => {
             if (typeof cheerpjInit !== 'undefined') {
                 clearInterval(checkReady);
