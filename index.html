@@ -4,33 +4,41 @@
     <meta charset="utf-8">
     <title>CGPA Calculator Live</title>
     <style>
-        body { margin: 0; overflow: hidden; background-color: #222; }
-        #loading { 
+        body { margin: 0; overflow: hidden; background-color: #2c3e50; }
+        #loading {
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            color: white; font-family: sans-serif; font-size: 20px;
+            color: white; font-family: sans-serif; font-size: 24px; text-align: center;
         }
     </style>
+    <script>
+        async function startCheerpJ() {
+            try {
+                // Update text to show progress
+                document.getElementById("loading").innerText = "Starting Java Environment...";
+                
+                // Initialize the engine
+                await cheerpjInit();
+                
+                // Remove text
+                document.getElementById("loading").style.display = "none";
+                
+                // Create display
+                cheerpjCreateDisplay(-1, -1, document.getElementById("container"));
+                
+                // Run the JAR (Using your Repo Name)
+                await cheerpjRunJar("/app/cgpa-web/calculator.jar");
+                
+            } catch (e) {
+                console.error(e);
+                document.getElementById("loading").innerText = "Error: " + e;
+            }
+        }
+    </script>
 </head>
 <body>
-    <div id="loading">Loading Java... Please wait 20 seconds.</div>
-    
+    <div id="loading">Downloading Java Tools...</div>
     <div id="container" style="width:100vw; height:100vh;"></div>
 
-    <script type="module">
-        // 1. We IMPORT the tools directly. This stops the "Not Defined" error.
-        import { cheerpjInit, cheerpjCreateDisplay, cheerpjRunJar } from "https://cjrtnc.leaningtech.com/3.0/loader.js";
-
-        // 2. Start the Engine
-        await cheerpjInit();
-
-        // 3. Remove the loading text
-        document.getElementById("loading").style.display = "none";
-
-        // 4. Create the screen
-        cheerpjCreateDisplay(-1, -1, document.getElementById("container"));
-
-        // 5. Run the file (Using your Repo Name in the path is CRITICAL)
-        await cheerpjRunJar("/app/cgpa-web/calculator.jar");
-    </script>
+    <script src="https://cjrtnc.leaningtech.com/3.0/loader.js" onload="startCheerpJ()"></script>
 </body>
 </html>
