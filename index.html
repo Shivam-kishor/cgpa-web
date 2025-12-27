@@ -1,27 +1,38 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="utf-8" />
     <title>CGPA Calculator Live</title>
     <script src="https://cjrtnc.leaningtech.com/3.0/loader.js"></script>
 </head>
-<body style="margin:0; background-color: #222;">
+<body style="margin:0; background-color: #2c3e50;">
     <div id="container" style="width:100vw; height:100vh;"></div>
     
     <script>
-        // This function waits for the script above to finish loading
-        window.onload = async function() {
+        // This 'async' function ensures everything happens in order
+        async function runApplication() {
             try {
-                // Initialize CheerpJ
+                // 1. Initialize the engine
                 await cheerpjInit();
-                // Create the display area
+                
+                // 2. Create the window display
                 cheerpjCreateDisplay(-1, -1, document.getElementById("container"));
-                // Run your jar - using the full path to be safe
-                await cheerpjRunJar("/app/CGPA-and-GPA-Converter-using-java-netbeans-2025/calculator.jar");
-            } catch (e) {
-                console.error("Error loading Java app:", e);
-                alert("Loading failed. Please check the console (F12).");
+                
+                // 3. Run the JAR using your new repo name 'cgpa-web'
+                await cheerpjRunJar("/app/cgpa-web/calculator.jar");
+                
+                console.log("Java application started successfully!");
+            } catch (error) {
+                console.error("Error details:", error);
             }
-        };
+        }
+
+        // Start only when the loader.js script is fully ready
+        if (typeof cheerpjInit !== 'undefined') {
+            runApplication();
+        } else {
+            window.addEventListener('load', runApplication);
+        }
     </script>
 </body>
 </html>
